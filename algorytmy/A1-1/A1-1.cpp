@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 using namespace std;
 
-unsigned double silnia(int n) {
+unsigned int  silnia(int n) {
     if (n < 2) return 1;
     else return n * silnia(n - 1);
 }
