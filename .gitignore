@@ -2,11 +2,10 @@
 *.d
 
 # Settings
-*.json
+# *.json
 
 # Folders
 .vs/
-.vscode/
 
 # Compiled Object files
 *.slo
