@@ -1,4 +1,0 @@
-﻿  A1-1.cpp
-E:\Libraries\Desktop\PANS\GitHub\cpp\algorytmy\A1-1\A1-1.cpp(4,10): warning C4076: 'unsigned': cannot be used with type 'double'
-E:\Libraries\Desktop\PANS\GitHub\cpp\algorytmy\A1-1\A1-1.cpp(15,17): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
-  A1-1.vcxproj -> E:\Libraries\Desktop\PANS\GitHub\cpp\algorytmy\A1-1\x64\Debug\A1-1.exe
