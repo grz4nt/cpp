@@ -2,15 +2,15 @@
 #define funkcje_header
 
 #include <vector>
+#include <climits>
 
-void znajdzMinMax(const std::vector<int> &liczby, int &min, int &max, int &minPoz, int &maxPoz) {
-    if (liczby.empty()) {
-        min = max = minPoz = maxPoz = -1;
-        return;
-    }
+void znajdzMinMax(std::vector<int> &liczby, int &min, int &max, int &minPoz, int &maxPoz) {
+    if (liczby.empty()) return;
 
-    min = max = liczby[0];
-    minPoz = maxPoz = 0;
+    min = INT_MAX;
+    max = INT_MIN;
+    minPoz = 0;
+    maxPoz = 0;
 
     for (int i = 1; i < liczby.size(); i++) {
         if (liczby[i] < min) {
@@ -23,26 +23,21 @@ void znajdzMinMax(const std::vector<int> &liczby, int &min, int &max, int &minPo
     }
 }
 
-// Funkcja obliczająca średnią wartość w wektorze
-double obliczSrednia(const std::vector<int>& liczby) {
-    if (liczby.empty()) return 0.0;
-
+double obliczSrednia(std::vector<int>& liczby) {
+    if (liczby.empty()) return 0;
     int suma = 0;
-    for (int x : liczby) {
-        suma += x;
-    }
-
+    for (int x : liczby) suma += x;
     return static_cast<double>(suma) / liczby.size();
 }
 
-// Funkcja znajdująca pozycję danej wartości w wektorze
-int znajdzPoz(const std::vector<int> &liczby, int szukanaLiczba) {
-    for (int i = 0; i < liczby.size(); i++) {
+std::vector<int> znajdzPoz(std::vector<int> &liczby, int szukanaLiczba) {
+    std::vector<int> indeksy;
+    for (int i = 0; i < liczby.size(); ++i) {
         if (liczby[i] == szukanaLiczba) {
-            return i;
+            indeksy.push_back(i);
         }
     }
-    return -1;
+    return indeksy;
 }
 
 #endif

@@ -60,14 +60,13 @@ int main() {
     int znalezione = znajdzPozycje(tab, rozmiar, szukanaWartosc, pozycje);
     if (znalezione > 0) {
         cout << "Pozycja (indeks) liczby " << szukanaWartosc << " w tablicy: ";
-        for (int i = 0; i < znalezione; i++) {
-            if (i < znalezione - 2) cout << pozycje[i] << ", ";
-            if (i == znalezione - 1) cout << pozycje[i] << endl;
-        }
+        for (int i = 0; i < znalezione; ++i) {
+            cout << pozycje[i];
+            if (i < znalezione - 1) cout << ", ";
+            else cout << endl;
     }
-    else {
-        cout << "Wartosc " << szukanaWartosc << " nie wystepuje w tablicy.\n";
     }
+    else cout << "Wartosc " << szukanaWartosc << " nie wystepuje w tablicy.\n";
 
     return 0;
 }
