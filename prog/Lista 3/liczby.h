@@ -1,5 +1,5 @@
-#ifndef funkcje_header
-#define funkcje_header
+#ifndef liczby_h
+#define liczby_h
 
 #include <vector>
 #include <climits>

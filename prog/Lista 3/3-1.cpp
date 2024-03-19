@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "funkcje.h"
+#include "liczby.h"
 
 using namespace std;
 
