@@ -31,7 +31,7 @@ int main() {
     vector<int> pozycje = znajdzPoz(liczby, szukanaLiczba);
     if (!pozycje.empty()) {
         cout << "Liczba " << szukanaLiczba << " znajduje sie na indeksach: ";
-        for (int i = 0; i < pozycje.size(); ++i) {
+        for (int i = 0; i < pozycje.size(); i++) {
             cout << pozycje[i];
             if (i < pozycje.size() - 1) {
                 cout << ", ";
