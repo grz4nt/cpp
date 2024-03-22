@@ -7,12 +7,12 @@ int main() {
 
     char wybor;
     do {
-        std::cout << "Menu:\n";
-        std::cout << "1. Dodaj studenta\n";
-        std::cout << "2. Edytuj studenta\n";
-        std::cout << "3. Usun studenta\n";
-        std::cout << "4. Wyszukaj studentow\n";
-        std::cout << "5. Wyjscie\n";
+        std::cout << "* MENU:\n";
+        std::cout << "  1. Dodaj studenta\n";
+        std::cout << "  2. Edytuj studenta\n";
+        std::cout << "  3. Usun studenta\n";
+        std::cout << "  4. Wyszukaj studentow\n";
+        std::cout << "  5. Wyjscie\n";
         std::cout << "Wybierz opcje: ";
         std::cin >> wybor;
 

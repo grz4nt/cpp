@@ -2,64 +2,58 @@
 
 using namespace std;
 
-const int MAX_SIZE = 20;
+const int rozmiarMax = 20;
 
-// Funkcja do wczytywania macierzy od użytkownika
-void wczytajMacierz(int macierz[][MAX_SIZE], int rozmiar) {
+void wczytajMacierz(int macierz[][rozmiarMax], int rozmiar) {
     cout << "Wpisz elementy macierzy " << rozmiar << "x" << rozmiar << ":\n";
-    for (int i = 0; i < rozmiar; ++i) {
-        for (int j = 0; j < rozmiar; ++j) {
+    for (int i = 0; i < rozmiar; i++) {
+        for (int j = 0; j < rozmiar; j++) {
             cin >> macierz[i][j];
         }
     }
 }
 
-// Funkcja do wyświetlania macierzy
-void wyswietlMacierz(int macierz[][MAX_SIZE], int rozmiar) {
+void wyswietlMacierz(int macierz[][rozmiarMax], int rozmiar) {
     cout << "Macierz:\n";
-    for (int i = 0; i < rozmiar; ++i) {
-        for (int j = 0; j < rozmiar; ++j) {
+    for (int i = 0; i < rozmiar; i++) {
+        for (int j = 0; j < rozmiar; j++) {
             cout << macierz[i][j] << " ";
         }
         cout << endl;
     }
 }
 
-// Funkcja do wyznaczania sumy wartości poniżej przekątnej
-int sumaPonizejPrzekatnej(int macierz[][MAX_SIZE], int rozmiar) {
+int sumaPonizejPrzekatnej(int macierz[][rozmiarMax], int rozmiar) {
     int suma = 0;
-    for (int i = 1; i < rozmiar; ++i) {
-        for (int j = 0; j < i; ++j) {
+    for (int i = 1; i < rozmiar; i++) {
+        for (int j = 0; j < i; j++) {
             suma += macierz[i][j];
         }
     }
     return suma;
 }
 
-// Funkcja do wyznaczania sumy wartości powyżej przekątnej
-int sumaPowyzejPrzekatnej(int macierz[][MAX_SIZE], int rozmiar) {
+int sumaPowyzejPrzekatnej(int macierz[][rozmiarMax], int rozmiar) {
     int suma = 0;
-    for (int i = 0; i < rozmiar - 1; ++i) {
-        for (int j = i + 1; j < rozmiar; ++j) {
+    for (int i = 0; i < rozmiar - 1; i++) {
+        for (int j = i + 1; j < rozmiar; j++) {
             suma += macierz[i][j];
         }
     }
     return suma;
 }
 
-// Funkcja do wyznaczania sumy wartości wskazanego wiersza
-int sumaWiersza(int macierz[][MAX_SIZE], int rozmiar, int wiersz) {
+int sumaWiersza(int macierz[][rozmiarMax], int rozmiar, int wiersz) {
     int suma = 0;
-    for (int j = 0; j < rozmiar; ++j) {
+    for (int j = 0; j < rozmiar; j++) {
         suma += macierz[wiersz][j];
     }
     return suma;
 }
 
-// Funkcja do wyznaczania sumy wartości wskazanej kolumny
-int sumaKolumny(int macierz[][MAX_SIZE], int rozmiar, int kolumna) {
+int sumaKolumny(int macierz[][rozmiarMax], int rozmiar, int kolumna) {
     int suma = 0;
-    for (int i = 0; i < rozmiar; ++i) {
+    for (int i = 0; i < rozmiar; i++) {
         suma += macierz[i][kolumna];
     }
     return suma;
@@ -70,12 +64,12 @@ int main() {
     cout << "Podaj rozmiar macierzy (max 20): ";
     cin >> rozmiar;
 
-    if (rozmiar > MAX_SIZE || rozmiar <= 0) {
+    if (rozmiar > rozmiarMax || rozmiar <= 0) {
         cout << "Nieprawidlowy rozmiar macierzy.\n";
         return 1;
     }
 
-    int macierz[MAX_SIZE][MAX_SIZE];
+    int macierz[rozmiarMax][rozmiarMax];
     wczytajMacierz(macierz, rozmiar);
 
     while (true) {

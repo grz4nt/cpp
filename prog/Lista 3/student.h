@@ -32,7 +32,7 @@ void dodajStudenta(std::vector<Student> &studenci) {
 
 void edytujStudenta(std::vector<Student> &studenci) {
     int album;
-    std::cout << "Podaj numer albumu studenta (ID) do edycji jego danych: ";
+    std::cout << "\nWybrales \"Edytuj Studenta\". \nPodaj numer albumu studenta (ID) do edycji jego danych: ";
     std::cin >> album;
     for (Student &student : studenci) {
         if (student.album == album) {
@@ -55,7 +55,7 @@ void edytujStudenta(std::vector<Student> &studenci) {
 
 void usunStudenta(std::vector<Student> &studenci) {
     int album;
-    std::cout << "Podaj nr albumu studenta do usuniecia: ";
+    std::cout << "\nWybrales \"Usun studenta\". Podaj nr albumu studenta do usuniecia: ";
     std::cin >> album;
     for (auto it = studenci.begin(); it != studenci.end(); it++) {
         if (it->album == album) {
@@ -67,24 +67,33 @@ void usunStudenta(std::vector<Student> &studenci) {
     std::cout << "Nie znaleziono studenta o podanym numerze albumu.\n";
 }
 
+void wyswietlWynik(const Student &student, const std::string &kryterium) {
+    std::cout << "Imie i nazwisko: " << student.imie << " " << student.nazwisko <<
+    "\nNr albumu: " << student.album <<
+    "\nKierunek: " << student.kierunek <<
+    "\nSemestr: " << student.semestr << "\n" << std::endl;
+}
+
 void wyszukajStudentow(std::vector<Student> &studenci) {
     std::string kryterium;
-    std::cout << "Podaj kryterium wyszukiwania:\n";
-    std::cout << "1. Imie\n";
-    std::cout << "2. Nazwisko\n";
-    std::cout << "3. Nr albumu\n";
-    std::cout << "4. Kierunek\n";
-    std::cout << "5. Semestr\n";
+    std::cout << "\nWybrales \"Wyszukaj studentow\". Wybierz pole wyszukiwania:\n";
+    std::cout << " 1. Imie\n";
+    std::cout << " 2. Nazwisko\n";
+    std::cout << " 3. Nr albumu\n";
+    std::cout << " 4. Kierunek\n";
+    std::cout << " 5. Semestr\n";
     std::cout << "Wybor: ";
     std::cin >> kryterium;
 
     std::string fraza;
-    std::cout << "Znajdz fraze: ";
+    std::cout << "Wyszukaj: ";
     std::cin >> fraza;
 
-    std::transform(fraza.begin(), fraza.end(), fraza.begin(), ::tolower);
+    if (kryterium == "1" || kryterium == "2" || kryterium == "4") {
+        std::transform(fraza.begin(), fraza.end(), fraza.begin(), ::tolower);
+    }
 
-    std::cout << "Znalezieni studenci:\n";
+    std::cout << "\nZnalezieni studenci:\n";
     for (const Student &student : studenci) {
         std::string imie = student.imie;
         std::transform(imie.begin(), imie.end(), imie.begin(), ::tolower);
@@ -94,23 +103,20 @@ void wyszukajStudentow(std::vector<Student> &studenci) {
         std::transform(kierunek.begin(), kierunek.end(), kierunek.begin(), ::tolower);
 
         if (kryterium == "1" && imie.find(fraza) != std::string::npos) {
-            std::cout << "Imie i nazwisko: " << student.imie << " " << student.nazwisko << "\nNr albumu: " << student.album <<
-                "\nKierunek: " << student.kierunek << "\nSemestr: " << student.semestr << std::endl;
-        } else if (kryterium == "2" && nazwisko.find(fraza) != std::string::npos) {
-            std::cout << "Imie i nazwisko: " << student.imie << student.nazwisko << "\nNr albumu: " << student.album <<
-                "\nKierunek: " << student.kierunek << "\nSemestr: " << student.semestr << std::endl;
-        } else if (kryterium == "3" && std::to_string(student.album).find(fraza) != std::string::npos) {
-            std::cout << "Imie i nazwisko: " << student.imie << student.nazwisko << "\nNr albumu: " << student.album <<
-                "\nKierunek: " << student.kierunek << "\nSemestr: " << student.semestr << std::endl;
-        } else if (kryterium == "4" && kierunek.find(fraza) != std::string::npos) {
-            std::cout << "Imie i nazwisko: " << student.imie << student.nazwisko << "\nNr albumu: " << student.album <<
-                "\nKierunek: " << student.kierunek << "\nSemestr: " << student.semestr << std::endl;
-        } else if (kryterium == "5" && std::to_string(student.semestr).find(fraza) != std::string::npos) {
-            std::cout << "Imie i nazwisko: " << student.imie << student.nazwisko << "\nNr albumu: " << student.album <<
-                "\nKierunek: " << student.kierunek << "\nSemestr: " << student.semestr << std::endl;
+            wyswietlWynik(student, kryterium);
         }
-    }
+        else if (kryterium == "2" && nazwisko.find(fraza) != std::string::npos) {
+            wyswietlWynik(student, kryterium);
+        }
+        else if (kryterium == "3" && std::to_string(student.album) == fraza) {
+            wyswietlWynik(student, kryterium);
+        }
+        else if (kryterium == "4" && kierunek.find(fraza) != std::string::npos) {
+            wyswietlWynik(student, kryterium);
+        }
+        else if (kryterium == "5" && std::to_string(student.semestr) == fraza) {
+            wyswietlWynik(student, kryterium);
+        } 
 }
-
-
+}
 #endif
