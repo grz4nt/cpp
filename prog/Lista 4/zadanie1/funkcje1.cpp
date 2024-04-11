@@ -95,7 +95,7 @@ Macierz odejmijMacierze(const Macierz& A, const Macierz& B) {
 
 Macierz pomnozMacierze(const Macierz& A, const Macierz& B) {
     if (A[0].size() != B.size()) {
-        std::cerr << "Nie mozna pomnozyc macierzy.\n";
+        std::cerr << "Nie mozna pomnozyc macierzy (nieprawidlowy rozmiar).\n";
         return Macierz();
     }
     Macierz C(A.size(), std::vector<int>(B[0].size(), 0));
