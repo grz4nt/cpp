@@ -1,12 +1,13 @@
+// main2.cpp
 #include <iostream>
 #include "funkcje2.h"
 using namespace std;
 
 int main()
 {
-	char board[3][3] = {{' ', ' ', ' '},
-						{' ', ' ', ' '},
-						{' ', ' ', ' '}};
+	char board[3][3];
+	initializeBoard(board);
+
 	char player = 'X';
 	int row, col;
 	int turn;
@@ -20,26 +21,8 @@ int main()
 		drawBoard(board);
 
 		if (!playWithComputer || player == 'X') {
-			while (true)
-			{
-				cout << "Gracz " << player << ", wpisz wiersz (1-3): ";
-				cin >> row;
-				cout << "Gracz " << player << ", wpisz kolumne (1-3): ";
-				cin >> col;
-				row--;
-				col--;
-
-				if (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ')
-				{
-					cout << "Nieprawidlowy ruch. Wprowadz ponownie\n";
-				}
-				else
-				{
-					break;
-				}
-			}
-
-			board[row][col] = player;
+			getPlayerMove(player, board, row, col);
+			makeMove(player, board, row, col);
 		} else {
 			computerMove(board);
 		}
@@ -50,14 +33,11 @@ int main()
 			break;
 		}
 
-		player = (player == 'X') ? 'O' : 'X';
+		switchPlayer(player);
 	}
 	drawBoard(board);
 
-	if (turn == 9 && !checkWin(board, 'X') && !checkWin(board, 'O'))
-	{
-		cout << "Remis!\n";
-	}
+	checkDraw(turn, board);
 
 	return 0;
 }
