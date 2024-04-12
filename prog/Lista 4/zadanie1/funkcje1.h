@@ -7,7 +7,7 @@ struct Macierz {
     std::vector<std::vector<int>> dane;
     Macierz() {}
     Macierz(int rozmiar) : dane(rozmiar, std::vector<int>(rozmiar)) {}
-    Macierz(int wiersze, int kolumny) : dane(wiersze, std::vector<int>(kolumny)) {} // nowy konstruktor
+    Macierz(int wiersze, int kolumny) : dane(wiersze, std::vector<int>(kolumny)) {}
 };
 
 int wczytajRozmiar();
