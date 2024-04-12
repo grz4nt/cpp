@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <limits>
+#include <cmath>
 
 typedef std::vector<std::vector<int>> Macierz;
-
 
 int wczytajWiersze() {
     int wiersze;
@@ -59,7 +59,7 @@ bool wczytajMacierze(Macierz& A, Macierz& B) {
     return !A.empty() && !B.empty();
 }
 
-Macierz dodajMacierze(const Macierz& A, const Macierz& B) {
+Macierz dodajMacierze( Macierz& A,  Macierz& B) {
     Macierz C = A;
     for (size_t i = 0; i < A.size(); ++i) {
         for (size_t j = 0; j < A[0].size(); ++j) {
@@ -67,8 +67,8 @@ Macierz dodajMacierze(const Macierz& A, const Macierz& B) {
         }
     }
     std::cout << "Wynik dodawania:\n";
-    for (const auto& wiersz : C) {
-        for (const auto& liczba : wiersz) {
+    for ( auto& wiersz : C) {
+        for ( auto& liczba : wiersz) {
             std::cout << liczba << ' ';
         }
         std::cout << '\n';
@@ -76,16 +76,16 @@ Macierz dodajMacierze(const Macierz& A, const Macierz& B) {
     return C;
 }
 
-Macierz odejmijMacierze(const Macierz& A, const Macierz& B) {
+Macierz odejmijMacierze( Macierz& A,  Macierz& B) {
     Macierz C = A;
     for (size_t i = 0; i < A.size(); ++i) {
         for (size_t j = 0; j < A[0].size(); ++j) {
-            C[i][j] -= B[i][j];
+            C[i][j] = C[i][j] - B[i][j];
         }
     }
     std::cout << "Wynik odejmowania:\n";
-    for (const auto& wiersz : C) {
-        for (const auto& liczba : wiersz) {
+    for ( auto& wiersz : C) {
+        for ( auto& liczba : wiersz) {
             std::cout << liczba << ' ';
         }
         std::cout << '\n';
@@ -93,7 +93,24 @@ Macierz odejmijMacierze(const Macierz& A, const Macierz& B) {
     return C;
 }
 
-Macierz pomnozMacierze(const Macierz& A, const Macierz& B) {
+Macierz rozniceMacierzy( Macierz& A,  Macierz& B) {
+    Macierz C = A;
+    for (size_t i = 0; i < A.size(); ++i) {
+        for (size_t j = 0; j < A[0].size(); ++j) {
+            C[i][j] = std::abs(C[i][j] - B[i][j]);
+        }
+    }
+    std::cout << "Wynik roznicy:\n";
+    for (auto& wiersz : C) {
+        for (auto& liczba : wiersz) {
+            std::cout << liczba << ' ';
+        }
+        std::cout << '\n';
+    }
+    return C;
+}
+
+Macierz pomnozMacierze( Macierz& A,  Macierz& B) {
     if (A[0].size() != B.size()) {
         std::cerr << "Nie mozna pomnozyc macierzy (nieprawidlowy rozmiar).\n";
         return Macierz();
@@ -107,8 +124,8 @@ Macierz pomnozMacierze(const Macierz& A, const Macierz& B) {
         }
     }
     std::cout << "Wynik mnozenia:\n";
-    for (const auto& wiersz : C) {
-        for (const auto& liczba : wiersz) {
+    for ( auto& wiersz : C) {
+        for ( auto& liczba : wiersz) {
             std::cout << liczba << ' ';
         }
         std::cout << '\n';
@@ -125,11 +142,12 @@ void wykonajOperacje() {
         std::cout << "2. Dodawanie macierzy\n";
         std::cout << "3. Odejmowanie macierzy\n";
         std::cout << "4. Mnozenie macierzy\n";
+        std::cout << "5. Roznica macierzy\n";
         std::cout << "Wybierz operacje: ";
         int operacja;
         std::cin >> operacja;
 
-        if (operacja > 1 && operacja < 5 && (A.empty() || B.empty())) {
+        if (operacja > 1 && operacja < 6 && (A.empty() || B.empty())) {
             wczytajMacierze(A, B);
         }
 
@@ -145,6 +163,9 @@ void wykonajOperacje() {
                 break;
             case 4:
                 C = pomnozMacierze(A, B);
+                break;
+            case 5:
+                C = rozniceMacierzy(A, B);
                 break;
             default:
                 std::cerr << "Nieznana operacja: " << operacja << "\n";

@@ -44,8 +44,16 @@ void switchPlayer(char &player) {
     player = (player == 'X') ? 'O' : 'X';
 }
 
-bool checkDraw(int turn, char board[3][3]) {
-    if (turn == 9 && !checkWin(board, 'X') && !checkWin(board, 'O')) {
+bool checkDraw0(int turn, char board[3][3]) {
+    if (turn == 9 && !checkWinPionPoziom(board, 'X') && !checkWinPionPoziom(board, 'O')) {
+        cout << "Remis!\n";
+        return true;
+    }
+    return false;
+}
+
+bool checkDraw1(int turn, char board[3][3]) {
+    if (turn == 9 && !checkWinPionPoziom(board, 'X') && !checkWinPionPoziom(board, 'O') && !checkWinPrzekatna(board, 'X') && !checkWinPrzekatna(board, 'O')) {
         cout << "Remis!\n";
         return true;
     }
@@ -77,7 +85,7 @@ void drawBoard(char board[3][3])
     }
 }
 
-bool checkWin(char board[3][3], char player)
+bool checkWinPionPoziom(char board[3][3], char player)
 {
     for (int i = 0; i < 3; i++)
     {
@@ -86,6 +94,11 @@ bool checkWin(char board[3][3], char player)
         if (board[0][i] == player && board[1][i] == player && board[2][i] == player)
             return true;
     }
+    return false;
+}
+
+bool checkWinPrzekatna(char board[3][3], char player)
+{
     if (board[0][0] == player && board[1][1] == player && board[2][2] == player)
         return true;
     if (board[0][2] == player && board[1][1] == player && board[2][0] == player)
@@ -105,8 +118,10 @@ bool hasEmptyCells(char board[3][3]) {
 }
 
 int scoreBoard(char board[3][3]) {
-    if (checkWin(board, 'X')) return -1;
-    if (checkWin(board, 'O')) return 1;
+    if (checkWinPionPoziom(board, 'X')) return -1;
+    if (checkWinPrzekatna(board, 'X')) return -1;
+    if (checkWinPionPoziom(board, 'O')) return 1;
+    if (checkWinPrzekatna(board, 'O')) return 1;
     return 0;
 }
 
