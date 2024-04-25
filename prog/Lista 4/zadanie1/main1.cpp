@@ -1,3 +1,5 @@
+// modyfikacja: dopelnienie jednej macierzy do drugiej (roznica miedzy dwoma)
+
 #include "funkcje1.h"
 #include <iostream>
 

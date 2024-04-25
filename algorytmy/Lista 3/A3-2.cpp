@@ -15,7 +15,8 @@ struct lista
     lista *nast;
 };
 
-lista *pocz = nullptr, *kon = nullptr;
+lista *pocz = nullptr;
+lista *kon = nullptr;
 
 void dodaj(string imie, string nazwisko, string PESEL, int wiek)
 {
