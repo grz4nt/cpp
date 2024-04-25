@@ -63,21 +63,103 @@ void dodaj(string imie, string nazwisko, string PESEL, int wiek)
     nowy->PESEL = PESEL;
     nowy->wiek = wiek;
     nowy->nast = NULL;
-    nowy->pop = koniec;
-    if (koniec != NULL)
-        koniec->nast = nowy;
-    else
+    nowy->pop = NULL;
+
+    if (poczatek == NULL)
+    {
         poczatek = nowy;
-    koniec = nowy;
+        koniec = nowy;
+    }
+    else if (nazwisko < poczatek->nazwisko)
+    {
+        nowy->nast = poczatek;
+        poczatek->pop = nowy;
+        poczatek = nowy;
+    }
+    else if (nazwisko >= koniec->nazwisko)
+    {
+        nowy->pop = koniec;
+        koniec->nast = nowy;
+        koniec = nowy;
+    }
+    else
+    {
+        lista *temp = poczatek->nast;
+        while (temp != NULL && temp->nazwisko < nazwisko)
+        {
+            temp = temp->nast;
+        }
+        nowy->nast = temp;
+        nowy->pop = temp->pop;
+        temp->pop->nast = nowy;
+        temp->pop = nowy;
+    }
 }
 
-void usunPierwszy(string nazwisko)
+void dodajSprawdz(string imie, string nazwisko, string PESEL, int wiek)
+{
+    lista *temp = poczatek;
+    while (temp != NULL)
+    {
+        if (temp->nazwisko == nazwisko)
+        {
+            cout << "Uwaga: Element o nazwisku " << nazwisko << " juz istnieje na liscie." << endl;
+        }
+        temp = temp->nast;
+    }
+
+    dodaj(imie, nazwisko, PESEL, wiek);
+}
+
+void usunPierwszy(string klucz, string wartosc)
 {
     lista *temp = poczatek;
     bool deleted = false;
     while (temp != NULL)
     {
-        if (temp->nazwisko == nazwisko)
+        if (klucz == "imie" && temp->imie == wartosc)
+        {
+            if (temp->pop != NULL)
+                temp->pop->nast = temp->nast;
+            else
+                poczatek = temp->nast;
+            if (temp->nast != NULL)
+                temp->nast->pop = temp->pop;
+            else
+                koniec = temp->pop;
+            delete temp;
+            deleted = true;
+            break;
+        }
+        else if (klucz == "nazwisko" && temp->nazwisko == wartosc)
+        {
+            if (temp->pop != NULL)
+                temp->pop->nast = temp->nast;
+            else
+                poczatek = temp->nast;
+            if (temp->nast != NULL)
+                temp->nast->pop = temp->pop;
+            else
+                koniec = temp->pop;
+            delete temp;
+            deleted = true;
+            break;
+        }
+        else if (klucz == "PESEL" && temp->PESEL == wartosc)
+        {
+            if (temp->pop != NULL)
+                temp->pop->nast = temp->nast;
+            else
+                poczatek = temp->nast;
+            if (temp->nast != NULL)
+                temp->nast->pop = temp->pop;
+            else
+                koniec = temp->pop;
+            delete temp;
+            deleted = true;
+            break;
+        }
+        else if (klucz == "wiek" && temp->wiek == stoi(wartosc))
         {
             if (temp->pop != NULL)
                 temp->pop->nast = temp->nast;
@@ -95,22 +177,61 @@ void usunPierwszy(string nazwisko)
     }
     if (deleted)
     {
-        cout << "Pierwszy element o podanym nazwisku zostal usuniety." << endl;
+        cout << "Pierwszy element o podanym kluczu zostal usuniety." << endl;
     }
     else
     {
-        cout << "Nie znaleziono elementu o podanym nazwisku." << endl;
+        cout << "Nie znaleziono elementu o podanym kluczu." << endl;
     }
 }
 
-void usunWszystkie(string nazwisko)
+void usunWszystkie(string klucz, string wartosc)
 {
     lista *temp = poczatek;
     bool deleted = false;
     while (temp != NULL)
     {
         lista *nast = temp->nast;
-        if (temp->nazwisko == nazwisko)
+        if (klucz == "imie" && temp->imie == wartosc)
+        {
+            if (temp->pop != NULL)
+                temp->pop->nast = temp->nast;
+            else
+                poczatek = temp->nast;
+            if (temp->nast != NULL)
+                temp->nast->pop = temp->pop;
+            else
+                koniec = temp->pop;
+            delete temp;
+            deleted = true;
+        }
+        else if (klucz == "nazwisko" && temp->nazwisko == wartosc)
+        {
+            if (temp->pop != NULL)
+                temp->pop->nast = temp->nast;
+            else
+                poczatek = temp->nast;
+            if (temp->nast != NULL)
+                temp->nast->pop = temp->pop;
+            else
+                koniec = temp->pop;
+            delete temp;
+            deleted = true;
+        }
+        else if (klucz == "PESEL" && temp->PESEL == wartosc)
+        {
+            if (temp->pop != NULL)
+                temp->pop->nast = temp->nast;
+            else
+                poczatek = temp->nast;
+            if (temp->nast != NULL)
+                temp->nast->pop = temp->pop;
+            else
+                koniec = temp->pop;
+            delete temp;
+            deleted = true;
+        }
+        else if (klucz == "wiek" && temp->wiek == stoi(wartosc))
         {
             if (temp->pop != NULL)
                 temp->pop->nast = temp->nast;
@@ -127,11 +248,11 @@ void usunWszystkie(string nazwisko)
     }
     if (deleted)
     {
-        cout << "Usunieto wszystkie elementy o podanym nazwisku." << endl;
+        cout << "Usunieto wszystkie elementy o podanym kluczu." << endl;
     }
     else
     {
-        cout << "Nie znaleziono elementow o podanym nazwisku." << endl;
+        cout << "Nie znaleziono elementow o podanym kluczu." << endl;
     }
 }
 
@@ -145,7 +266,7 @@ void wypisz()
     }
     while (temp != NULL)
     {
-        cout << "Imie: " << temp->imie << ", Nazwisko: " << temp->nazwisko << ", PESEL: " << temp->PESEL << ", Wiek: " << temp->wiek << endl;
+        cout << temp->imie << " " << temp->nazwisko << ", PESEL: " << temp->PESEL << ", Wiek: " << temp->wiek << endl;
         temp = temp->nast;
     }
 }
@@ -163,7 +284,7 @@ void wyszukaj(string klucz)
                 cout << "Znalezione elementy pasujace do klucza:" << endl;
                 found = true;
             }
-            cout << "Imie: " << temp->imie << ", Nazwisko: " << temp->nazwisko << ", PESEL: " << temp->PESEL << ", Wiek: " << temp->wiek << endl;
+            cout << temp->imie << " " << temp->nazwisko << ", PESEL: " << temp->PESEL << ", Wiek: " << temp->wiek << endl;
         }
         temp = temp->nast;
     }
@@ -228,6 +349,11 @@ void edytujOsobe()
     }
 }
 
+void zapiszElement(ofstream& plik, lista* element)
+{
+    plik << element->imie << "," << element->nazwisko << "," << element->PESEL << "," << element->wiek << endl;
+}
+
 void zapiszDoPliku(string nazwaPliku)
 {
     ofstream plik(nazwaPliku);
@@ -236,14 +362,62 @@ void zapiszDoPliku(string nazwaPliku)
         cout << "Blad otwarcia pliku" << endl;
         return;
     }
-    lista *temp = poczatek;
-    while (temp != NULL)
+
+    int wybor;
+    cout << "Wybierz opcje zapisu:" << endl;
+    cout << "1. Wszystkie elementy" << endl;
+    cout << "2. Tylko o wybranym nazwisku" << endl;
+    cout << "3. Tylko osoby pelnoletnie" << endl;
+    cout << "Wybierz opcje: ";
+    cin >> wybor;
+
+    if (wybor == 2)
     {
-        plik << "Imie: " << temp->imie << ", Nazwisko: " << temp->nazwisko << ", PESEL: " << temp->PESEL << ", Wiek: " << temp->wiek << endl;
-        temp = temp->nast;
+        string wybraneNazwisko;
+        cout << "Podaj nazwisko: ";
+        cin >> wybraneNazwisko;
+        lista *temp = poczatek;
+        while (temp != NULL)
+        {
+            if (temp->nazwisko == wybraneNazwisko)
+            {
+                zapiszElement(plik, temp);
+            }
+            temp = temp->nast;
+        }
+    }
+    else
+    {
+        lista *temp = poczatek;
+        while (temp != NULL)
+        {
+            if (wybor == 1 || (wybor == 3 && temp->wiek >= 18))
+            {
+                zapiszElement(plik, temp);
+            }
+            temp = temp->nast;
+        }
     }
     plik.close();
-    cout << "Dane zapisane do pliku " << nazwaPliku << " pomyslnie." << endl;
+    cout << "Dane zapisane do pliku pomyslnie." << endl;
+}
+
+void wypiszPlik(string nazwaPliku)
+{
+    ifstream plik(nazwaPliku);
+    if (!plik)
+    {
+        cout << "Plik nie istnieje." << endl;
+        return;
+    }
+
+    string linia;
+    while (getline(plik, linia))
+    {
+        cout << linia << endl;
+    }
+
+    plik.close();
 }
 
 void zwolnijPamiec()
@@ -261,21 +435,22 @@ void zwolnijPamiec()
 int main()
 {
     int wybor;
-    string imie, nazwisko, PESEL, nazwaPliku, klucz, nowyPESEL;
+    string imie, nazwisko, PESEL, klucz, nowyPESEL, wartosc;
     int wiek;
     lista *osoba = znajdz(PESEL);
     dodaj("Jan", "Doe", "1234561234", 30);
     dodaj("Jane", "Doever", "12312312312", 25);
     while (true)
     {
-        cout << "1. Dodaj element do listy" << endl;
-        cout << "2. Usun pierwszy element o podanym nazwisku" << endl;
-        cout << "3. Usun wszystkie elementy o podanym nazwisku" << endl;
-        cout << "4. Wyszukaj elementy na podstawie klucza" << endl;
-        cout << "5. Wypisz zawartosc listy" << endl;
-        cout << "6. Edytuj wybrany element listy" << endl;
-        cout << "7. Zapisz elementy listy do pliku" << endl;
-        cout << "8. Wyjscie" << endl;
+        cout << "1. Dodaj element do listy (wg nazwiska)" << endl;
+        cout << "2. Dodaj element do listy (wg nazwiska) i sprawdz czy istnieje" << endl;
+        cout << "3. Usun pierwszy element o podanym kluczu" << endl;
+        cout << "4. Usun wszystkie elementy o podanym kluczu" << endl;
+        cout << "5. Edytuj wybrany element listy" << endl;
+        cout << "6. Zapisz elementy listy do pliku CSV" << endl;
+        cout << "7. Wypisz zawartosc listy" << endl;
+        cout << "8. Wypisz zawartosc zapisanego pliku" << endl;
+        cout << "9. Wyjscie" << endl;
         cout << "Wybierz opcje: ";
         cin >> wybor;
 
@@ -292,37 +467,47 @@ int main()
             cout << endl;
             break;
         case 2:
+            cout << "Podaj imie: ";
+            cin >> imie;
             cout << "Podaj nazwisko: ";
             cin >> nazwisko;
-            usunPierwszy(nazwisko);
+            PESEL = pobierzPESEL();
+            wiek = pobierzWiek();
+            dodajSprawdz(imie, nazwisko, PESEL, wiek);
             cout << endl;
             break;
         case 3:
-            cout << "Podaj nazwisko: ";
-            cin >> nazwisko;
-            usunWszystkie(nazwisko);
+            cout << "Podaj klucz (imie/nazwisko/PESEL/wiek): ";
+            cin >> klucz;
+            cout << "Podaj wartosc klucza: ";
+            cin >> wartosc;
+            usunPierwszy(klucz, wartosc);
             cout << endl;
             break;
         case 4:
-            cout << "Podaj klucz: ";
+            cout << "Podaj klucz (imie/nazwisko/PESEL/wiek): ";
             cin >> klucz;
-            wyszukaj(klucz);
+            cout << "Podaj wartosc klucza: ";
+            cin >> wartosc;
+            usunWszystkie(klucz, wartosc);
             cout << endl;
             break;
         case 5:
+            edytujOsobe();
+            break;
+        case 6:
+            zapiszDoPliku("lista.csv");
+            cout << endl;
+            break;
+        case 7:
             wypisz();
             cout << endl;
             break;
-        case 6:
-            edytujOsobe();
-            break;
-        case 7:
-            cout << "Podaj nazwe pliku z rozszerzeniem: ";
-            cin >> nazwaPliku;
-            zapiszDoPliku(nazwaPliku);
+        case 8:
+            wypiszPlik("lista.csv");
             cout << endl;
             break;
-        case 8:
+        case 9:
             zwolnijPamiec();
             cout << "Koniec programu" << endl;
             return 0;
