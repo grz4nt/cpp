@@ -440,6 +440,10 @@ int main()
     lista *osoba = znajdz(PESEL);
     dodaj("Jan", "Doe", "1234561234", 30);
     dodaj("Jane", "Doever", "12312312312", 25);
+    dodaj("Maria", "Kowalska", "00112233456", 20);
+    dodaj("Jadwiga", "Hymel", "45011232167", 80);
+    dodaj("Michal", "Kowalski", "90031233456", 40);
+    dodaj("Michael", "Jackson", "65314245689", 60);
     while (true)
     {
         cout << "1. Dodaj element do listy (wg nazwiska)" << endl;
