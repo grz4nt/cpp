@@ -1,16 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <chrono>
+#include <ctime>
 
-enum DataType { INTEGER, REAL };
-enum SortAlgorithm { BUBBLE, SELECTION, INSERTION, MERGE, COUNTING, HEAP, BUCKET, QUICK };
+enum class typDanych { calkowite, rzeczywiste };
+enum class algorytmSortowania { bubble, selection, insertion, merge, counting, heap, bucket, quicksort };
 
 // n= 30.000, 50.000, 100.000, 150.000, 200.000, 500.000, 1.000.000, 2.000.000, 5.000.000, 10.000.000
 
-
-int chooseArraySize() {
-    int choice;
+int rozmiarTablicy() {
+    int wybor;
 
     std::cout << "Wybierz rozmiar tablicy:\n";
     std::cout << "1. 30.000\n";
@@ -24,9 +23,9 @@ int chooseArraySize() {
     std::cout << "9. 5.000.000\n";
     std::cout << "10. 10.000.000\n";
 
-    std::cin >> choice;
+    std::cin >> wybor;
 
-    switch (choice) {
+    switch (wybor) {
         case 1: return 30000;
         case 2: return 50000;
         case 3: return 100000;
@@ -38,103 +37,118 @@ int chooseArraySize() {
         case 9: return 5000000;
         case 10: return 10000000;
         default:
-            std::cout << "Invalid choice. Please choose a number between 1 and 10.\n";
-            return chooseArraySize();
+            std::cout << "Nieprawidlowy wybor!\n";
+            return rozmiarTablicy();
     }
 }
 
-DataType chooseDataType() {
-        int choice;
+typDanych wybierzDane() {
+    int wybor;
 
-        std::cout << "Podaj typ danych:\n";
-        std::cout << "0. LICZBA_CALKOWITA\n";
-        std::cout << "1. LICZBA_RZECZYWISTA\n";
-        std::cin >> choice;
+    std::cout << "Podaj typ danych:\n";
+    std::cout << "1. Liczby calkowite\n";
+    std::cout << "2. Liczby rzeczywiste\n";
+    std::cin >> wybor;
 
-        switch (choice) {
-            case 0: return INTEGER;
-            case 1: return REAL;
-            default:
-                std::cout << "Nieprawidłowy wybór. Proszę podać liczbę 0 lub 1.\n";
-                return chooseDataType();
-        }
+    switch (wybor) {
+        case 1: return typDanych::calkowite;
+        case 2: return typDanych::rzeczywiste;
+        default:
+            std::cout << "Nieprawidlowy wybor!\n";
+            return wybierzDane();
     }
+}
 
-SortAlgorithm chooseSortAlgorithm() {
-        int choice;
+algorytmSortowania wybierzAlgorytm() {
+    int wybor;
 
-        std::cout << "Wybierz algorytm sortowania:\n";
-        std::cout << "0. BUBBLE\n";
-        std::cout << "1. SELECTION\n";
-        std::cout << "2. INSERTION\n";
-        std::cout << "3. MERGE\n";
-        std::cout << "4. COUNTING (tylko liczby calkowite)\n";
-        std::cout << "5. HEAP\n";
-        std::cout << "6. BUCKET\n";
-        std::cout << "7. QUICK\n";
-        std::cin >> choice;
+    std::cout << "Wybierz algorytm sortowania:\n";
+    std::cout << "1. Bubble\n";
+    std::cout << "2. Selection\n";
+    std::cout << "3. Insertion\n";
+    std::cout << "4. Merge\n";
+    std::cout << "5. Counting (tylko liczby calkowite)\n";
+    std::cout << "6. Heap\n";
+    std::cout << "7. Bucket\n";
+    std::cout << "8. Quicksort\n";
+    std::cin >> wybor;
 
-        switch (choice) {
-            case 0: return BUBBLE;
-            case 1: return SELECTION;
-            case 2: return INSERTION;
-            case 3: return MERGE;
-            case 4: return COUNTING;
-            case 5: return HEAP;
-            case 6: return BUCKET;
-            case 7: return QUICK;
-            default:
-                std::cout << "Invalid choice. Please choose a number between 0 and 7.\n";
-                return chooseSortAlgorithm();
-        }
+    switch (wybor) {
+        case 1: return algorytmSortowania::bubble;
+        case 2: return algorytmSortowania::selection;
+        case 3: return algorytmSortowania::insertion;
+        case 4: return algorytmSortowania::merge;
+        case 5: return algorytmSortowania::counting;
+        case 6: return algorytmSortowania::heap;
+        case 7: return algorytmSortowania::bucket;
+        case 8: return algorytmSortowania::quicksort;
+        default:
+            std::cout << "Nieprawidlowy wybor!\n";
+            return wybierzAlgorytm();
     }
+}
 
 template <typename T>
-class Array {
-    std::vector<T> data;
+class tablica {
+    std::vector<T> dane;
 
 public:
-    Array(int size) : data(size) {
-        // Fill the array with random data
-        std::generate(data.begin(), data.end(), std::rand);
+    tablica(int rozmiar) : dane(rozmiar) {
+        std::generate(dane.begin(), dane.end(), std::rand);
     }
 
     void bubbleSort() {
-        for (int i = 0; i < data.size() - 1; i++) {
-            for (int j = 0; j < data.size() - i - 1; j++) {
-                if (data[j] > data[j + 1]) {
-                    std::swap(data[j], data[j + 1]);
+        clock_t start = clock();
+        for (int i = 0; i < dane.size() - 1; i++) {
+            for (int j = 0; j < dane.size() - i - 1; j++) {
+                if (dane[j] > dane[j + 1]) {
+                    std::swap(dane[j], dane[j + 1]);
                 }
             }
         }
+        clock_t end = clock();
+        double duration = double(end - start) / CLOCKS_PER_SEC;
+        std::cout << "Czas sortowania (w sekundach): " << duration << std::endl;
     }
 
     void selectionSort() {
-        for (int i = 0; i < data.size() - 1; i++) {
+    clock_t start = clock();
+        for (int i = 0; i < dane.size() - 1; i++) {
             int minIndex = i;
-            for (int j = i + 1; j < data.size(); j++) {
-                if (data[j] < data[minIndex]) {
+            for (int j = i + 1; j < dane.size(); j++) {
+                if (dane[j] < dane[minIndex]) {
                     minIndex = j;
                 }
             }
-            std::swap(data[i], data[minIndex]);
+            std::swap(dane[i], dane[minIndex]);
         }
+    clock_t end = clock();
+    double duration = double(end - start) / CLOCKS_PER_SEC;
+    std::cout << "Czas sortowania (w sekundach): " << duration << std::endl;
     }
 
     void insertionSort() {
-        for (int i = 1; i < data.size(); i++) {
-            T key = data[i];
+    clock_t start = clock();
+        for (int i = 1; i < dane.size(); i++) {
+            T key = dane[i];
             int j = i - 1;
-            while (j >= 0 && data[j] > key) {
-                data[j + 1] = data[j];
+            while (j >= 0 && dane[j] > key) {
+                dane[j + 1] = dane[j];
                 j--;
             }
-            data[j + 1] = key;
+            dane[j + 1] = key;
         }
+    clock_t end = clock();
+    double duration = double(end - start) / CLOCKS_PER_SEC;
+    std::cout << "Czas sortowania (w sekundach): " << duration << std::endl;
     }
 
     void mergeSort() {
-        mergeSortHelper(0, data.size() - 1);
+    clock_t start = clock();
+        mergeSortHelper(0, dane.size() - 1);
+    clock_t end = clock();
+    double duration = double(end - start) / CLOCKS_PER_SEC;
+    std::cout << "Czas sortowania (w sekundach): " << duration << std::endl;
     }
 
     void mergeSortHelper(int low, int high) {
@@ -147,138 +161,152 @@ public:
     }
 
     void merge(int low, int mid, int high) {
-        int leftSize = mid - low + 1;
-        int rightSize = high - mid;
+        int lewaRozmiar = mid - low + 1;
+        int prawaRozmiar = high - mid;
 
-        std::vector<T> left(leftSize);
-        std::vector<T> right(rightSize);
+        std::vector<T> lewy(lewaRozmiar);
+        std::vector<T> prawy(prawaRozmiar);
 
-        for (int i = 0; i < leftSize; i++) {
-            left[i] = data[low + i];
+        for (int i = 0; i < lewaRozmiar; i++) {
+            lewy[i] = dane[low + i];
         }
 
-        for (int j = 0; j < rightSize; j++) {
-            right[j] = data[mid + 1 + j];
+        for (int j = 0; j < prawaRozmiar; j++) {
+            prawy[j] = dane[mid + 1 + j];
         }
 
         int i = 0;
         int j = 0;
         int k = low;
 
-        while (i < leftSize && j < rightSize) {
-            if (left[i] <= right[j]) {
-                data[k] = left[i];
+        while (i < lewaRozmiar && j < prawaRozmiar) {
+            if (lewy[i] <= prawy[j]) {
+                dane[k] = lewy[i];
                 i++;
             } else {
-                data[k] = right[j];
+                dane[k] = prawy[j];
                 j++;
             }
             k++;
         }
 
-        while (i < leftSize) {
-            data[k] = left[i];
+        while (i < lewaRozmiar) {
+            dane[k] = lewy[i];
             i++;
             k++;
         }
 
-        while (j < rightSize) {
-            data[k] = right[j];
+        while (j < prawaRozmiar) {
+            dane[k] = prawy[j];
             j++;
             k++;
         }
     }
 
     void countingSort() {
-        // Find the maximum element in the array
-        T maxElement = *std::max_element(data.begin(), data.end());
+        if (std::is_same<T, int>::value) {
+            clock_t start = clock();
+            int maxElement = *std::max_element(dane.begin(), dane.end());
+            int minElement = *std::min_element(dane.begin(), dane.end());
+            int range = maxElement - minElement + 1;
 
-        // Create a count array to store the count of each element
-        std::vector<int> count(maxElement + 1, 0);
+            std::vector<int> count(range, 0);
+            std::vector<T> output(dane.size());
 
-        // Count the occurrences of each element
-        for (int i = 0; i < data.size(); i++) {
-            count[data[i]]++;
-        }
+            for (int i = 0; i < dane.size(); i++) {
+                count[dane[i] - minElement]++;
+            }
 
-        // Calculate the cumulative count
-        for (int i = 1; i < count.size(); i++) {
-            count[i] += count[i - 1];
-        }
+            for (int i = 1; i < range; i++) {
+                count[i] += count[i - 1];
+            }
 
-        // Create a temporary array to store the sorted elements
-        std::vector<T> sorted(data.size());
+            for (int i = dane.size() - 1; i >= 0; i--) {
+                output[count[dane[i] - minElement] - 1] = dane[i];
+                count[dane[i] - minElement]--;
+            }
 
-        // Place the elements in the sorted array
-        for (int i = data.size() - 1; i >= 0; i--) {
-            sorted[count[data[i]] - 1] = data[i];
-            count[data[i]]--;
-        }
+            for (int i = 0; i < dane.size(); i++) {
+                dane[i] = output[i];
+            }
 
-        // Copy the sorted elements back to the original array
-        for (int i = 0; i < data.size(); i++) {
-            data[i] = sorted[i];
+            clock_t end = clock();
+            double duration = double(end - start) / CLOCKS_PER_SEC;
+            std::cout << "Czas sortowania (w sekundach): " << duration << std::endl;
+        } else {
+            std::cout << "Sortowanie przez zliczanie wymaga liczb calkowitych.\n";
         }
     }
 
     void heapSort() {
-        // Build max heap
-        for (int i = data.size() / 2 - 1; i >= 0; i--) {
-            heapify(data.size(), i);
+    clock_t start = clock();
+        for (int i = dane.size() / 2 - 1; i >= 0; i--) {
+            heapify(dane.size(), i);
         }
 
         // Extract elements from the heap one by one
-        for (int i = data.size() - 1; i > 0; i--) {
-            std::swap(data[0], data[i]);
+        for (int i = dane.size() - 1; i > 0; i--) {
+            std::swap(dane[0], dane[i]);
             heapify(i, 0);
         }
+    clock_t end = clock();
+    double duration = double(end - start) / CLOCKS_PER_SEC;
+    std::cout << "Czas sortowania (w sekundach): " << duration << std::endl;
     }
 
     void heapify(int n, int i) {
-        int largest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
+        int maksimum = i;
+        int lewy = 2 * i + 1;
+        int prawy = 2 * i + 2;
 
-        if (left < n && data[left] > data[largest]) {
-            largest = left;
+        if (lewy < n && dane[lewy] > dane[maksimum]) {
+            maksimum = lewy;
         }
 
-        if (right < n && data[right] > data[largest]) {
-            largest = right;
+        if (prawy < n && dane[prawy] > dane[maksimum]) {
+            maksimum = prawy;
         }
 
-        if (largest != i) {
-            std::swap(data[i], data[largest]);
-            heapify(n, largest);
+        if (maksimum != i) {
+            std::swap(dane[i], dane[maksimum]);
+            heapify(n, maksimum);
         }
     }
 
     void bucketSort() {
+    clock_t start = clock();
         // Implement bucket sort
-        std::vector<std::vector<T>> buckets(data.size());
+        std::vector<std::vector<T>> buckets(dane.size());
         
         // Place elements into buckets
-        for (int i = 0; i < data.size(); i++) {
-            int bucketIndex = data.size() * data[i];
-            buckets[bucketIndex].push_back(data[i]);
+        for (int i = 0; i < dane.size(); i++) {
+            int bucketIndex = dane.size() * dane[i];
+            buckets[bucketIndex].push_back(dane[i]);
         }
         
         // Sort each bucket
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < dane.size(); i++) {
             std::sort(buckets[i].begin(), buckets[i].end());
         }
         
         // Concatenate the sorted buckets
         int index = 0;
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < dane.size(); i++) {
             for (int j = 0; j < buckets[i].size(); j++) {
-                data[index++] = buckets[i][j];
+                dane[index++] = buckets[i][j];
             }
         }
+    clock_t end = clock();
+    double duration = double(end - start) / CLOCKS_PER_SEC;
+    std::cout << "Czas sortowania (w sekundach): " << duration << std::endl;
     }
 
     void quickSort() {
-        quickSortHelper(0, data.size() - 1);
+    clock_t start = clock();
+        quickSortHelper(0, dane.size() - 1);
+    clock_t end = clock();
+    double duration = double(end - start) / CLOCKS_PER_SEC;
+    std::cout << "Czas sortowania (w sekundach): " << duration << std::endl;
     }
 
     void quickSortHelper(int low, int high) {
@@ -290,49 +318,60 @@ public:
     }
 
     int partition(int low, int high) {
-        T pivot = data[high];
+        T pivot = dane[high];
         int i = low - 1;
 
         for (int j = low; j <= high - 1; j++) {
-            if (data[j] < pivot) {
+            if (dane[j] < pivot) {
                 i++;
-                std::swap(data[i], data[j]);
+                std::swap(dane[i], dane[j]);
             }
         }
 
-        std::swap(data[i + 1], data[high]);
+        std::swap(dane[i + 1], dane[high]);
         return i + 1;
     }
 
-    void sort(SortAlgorithm algorithm) {
+    void sort(algorytmSortowania algorithm) {
         switch (algorithm) {
-            case BUBBLE: bubbleSort(); break;
-            case SELECTION: selectionSort(); break;
-            case INSERTION: insertionSort(); break;
-            case MERGE: mergeSort(); break;
-            case COUNTING: countingSort(); break;
-            case HEAP: heapSort(); break;
-            case BUCKET: bucketSort(); break;
-            case QUICK: quickSort(); break;
+            case algorytmSortowania::bubble: bubbleSort(); break;
+            case algorytmSortowania::selection: selectionSort(); break;
+            case algorytmSortowania::insertion: insertionSort(); break;
+            case algorytmSortowania::merge: mergeSort(); break;
+            case algorytmSortowania::counting: countingSort(); break;
+            case algorytmSortowania::heap: heapSort(); break;
+            case algorytmSortowania::bucket: bucketSort(); break;
+            case algorytmSortowania::quicksort: quickSort(); break;
         }
     }
 };
 
 int main() {
-    DataType dataType;
-    SortAlgorithm sortAlgorithm;
-    int size;
+    typDanych typ;
+    algorytmSortowania algorytm;
+    int rozmiar;
 
-    dataType = chooseDataType();
+    while (true) {
+        typ = wybierzDane();
 
-    size = chooseArraySize();
+        rozmiar = rozmiarTablicy();
 
-    if (dataType == INTEGER) {
-        Array<int> array(size);
-        array.sort(sortAlgorithm);
-    } else {
-        Array<double> array(size);
-        array.sort(sortAlgorithm);
+        algorytm = wybierzAlgorytm();
+
+        if (typ == typDanych::calkowite) {
+            tablica<int> tab(rozmiar);
+            tab.sort(algorytm);
+        } else {
+            tablica<double> tab(rozmiar);
+            tab.sort(algorytm);
+        }
+
+        std::cout << "Czy chcesz kontynuowac? (T/N): ";
+        char wybor;
+        std::cin >> wybor;
+        if (wybor != 'T' && wybor != 't') {
+            break;
+        }
     }
 
     return 0;
