@@ -14,8 +14,8 @@ struct lista
     lista *nast;
 };
 
-lista *poczatek = NULL;
-lista *koniec = NULL;
+lista *poczatek = nullptr;
+lista *koniec = nullptr;
 
 string pobierzPESEL() {
     string PESEL;

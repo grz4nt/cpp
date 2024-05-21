@@ -3,30 +3,33 @@
 using namespace std;
 
 void poziom(int x) {
-    if (x == 0) {
-        return;
-    }
-    else {
-        cout << "*";
+    if (x > 0) {
+    cout << "*";
         poziom(x - 1);
     }
+    else return;
 }
 
-void trojkat(int n, int i=0) {
-    if (i == n) {
-        return;
-    }
-    else {
-        poziom(n - i);
+void trojkat(int n) {
+    if (n > 0) {
+        poziom(n);
         cout << endl;
-        trojkat(n, i + 1);
+        trojkat(n - 1);
     }
+    else return;
 }
 
 int main() {
     int n;
     cout << "Podaj n: ";
     cin >> n;
-    trojkat(n);
+    if (n > 0 && n < 50) {
+        cout << "Trojkat o wysokosci " << n << ":" << endl;
+        trojkat(n);
+    }
+    else {
+        cout << "Podaj liczbe z przedzialu (0, 50)" << endl;
+        return 0;
+    }
     return 0;
 }

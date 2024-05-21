@@ -16,7 +16,7 @@ struct lista
 };
 
 lista *pocz = nullptr;
-lista *kon = nullptr;
+lista *koniec = nullptr;
 
 void dodaj(string imie, string nazwisko, string PESEL, int wiek)
 {
@@ -27,12 +27,12 @@ void dodaj(string imie, string nazwisko, string PESEL, int wiek)
     nowy->wiek = wiek;
     nowy->nast = nullptr;
 
-    if (kon != nullptr)
-        kon->nast = nowy;
+    if (koniec != nullptr)
+        koniec->nast = nowy;
     else
         pocz = nowy;
 
-    kon = nowy;
+    koniec = nowy;
 }
 
 void usun()
@@ -43,8 +43,7 @@ void usun()
         pocz = pocz->nast;
         delete temp;
 
-        if (pocz == nullptr)
-            kon = nullptr;
+        if (pocz == nullptr) koniec = nullptr;
     }
 }
 
@@ -74,8 +73,7 @@ void zapiszDoPliku(string nazwaPliku)
         temp = temp->nast;
     }
 
-    sort(wektor.begin(), wektor.end(), [](lista *a, lista *b)
-         { return a->wiek < b->wiek; });
+    sort(wektor.begin(), wektor.end(), [](lista *a, lista *b) { return a->wiek < b->wiek; });
 
     ofstream plik(nazwaPliku);
     if (plik.is_open())
