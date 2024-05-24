@@ -254,9 +254,9 @@ int main() {
         std::cout << "Wynik Rzutu Grzegorz: " << wynikRzutuGrzegorz << std::endl;
         Grzegorz.przesun(wynikRzutuGrzegorz, liczbaPol);
 
-        int wynikRzutuDrugiGracz = kosc.rzuc();
-        std::cout << "Wynik Rzutu Janusz: " << wynikRzutuDrugiGracz << std::endl;
-        Janusz.przesun(wynikRzutuDrugiGracz, liczbaPol);
+        int wynikRzutuJanusz = kosc.rzuc();
+        std::cout << "Wynik Rzutu Janusz: " << wynikRzutuJanusz << std::endl;
+        Janusz.przesun(wynikRzutuJanusz, liczbaPol);
     }
 
     std::cout << "Pozycja Grzegorz: " << Grzegorz.pozycja << std::endl;
