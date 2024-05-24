@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <algorithm>
+#include <iostream>
 
 class Gracz;
 class Pole;
@@ -19,7 +20,6 @@ class Bankier;
 
 class Gracz {
 private:
-    int pieniadze;
     std::vector<Miasto*> nieruchomosci;
     bool kartaWiezienie;
     int ileDworzec;
@@ -28,6 +28,7 @@ private:
     int ileHotel;
 
 public:
+    int pieniadze;
     std::string name;
     bool wWiezieniu;
     int pozycja;
@@ -241,13 +242,29 @@ void Gracz::przesun(int ruchy, int liczbaPol) {
 }
 
 int main() {
+    srand(time(NULL));
     int liczbaPol = 40;
-    Gracz czlowiek("Grzegorz", 1500);
+    Gracz Grzegorz("Grzegorz", 1500);
+    Gracz Janusz("Janusz", 1500);
     Kosc kosc;
-    Bankier bankier(100000);
+    Bankier bankier(10000);
+    bankier.dodajPieniadze(Grzegorz, 500);
+    bankier.dodajPieniadze(Janusz, 500);
 
-    int wynikRzutu = kosc.rzuc();
-    czlowiek.przesun(wynikRzutu, liczbaPol);
+    for (int i = 0; i < 3; i++) {
+        int wynikRzutuGrzegorz = kosc.rzuc();
+        std::cout << "Wynik Rzutu Grzegorz: " << wynikRzutuGrzegorz << std::endl;
+        Grzegorz.przesun(wynikRzutuGrzegorz, liczbaPol);
+
+        int wynikRzutuJanusz = kosc.rzuc();
+        std::cout << "Wynik Rzutu Janusz: " << wynikRzutuJanusz << std::endl;
+        Janusz.przesun(wynikRzutuJanusz, liczbaPol);
+    }
+
+    std::cout << "Pozycja Grzegorz: " << Grzegorz.pozycja << std::endl;
+    std::cout << "Pieniadze Grzegorz: " << Grzegorz.pieniadze << std::endl;
+    std::cout << "Pozycja Janusz: " << Janusz.pozycja << std::endl;
+    std::cout << "Pieniadze Janusz: " << Janusz.pieniadze << std::endl;
 
     return 0;
 }
