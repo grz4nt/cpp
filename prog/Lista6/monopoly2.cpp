@@ -20,7 +20,6 @@ class Bankier;
 
 class Gracz {
 private:
-    std::vector<Miasto*> nieruchomosci;
     bool kartaWiezienie;
     int ileDworzec;
     int ileUzytek;
@@ -28,6 +27,7 @@ private:
     int ileHotel;
 
 public:
+    std::vector<Miasto*> nieruchomosci;
     int pieniadze;
     std::string name;
     bool wWiezieniu;
