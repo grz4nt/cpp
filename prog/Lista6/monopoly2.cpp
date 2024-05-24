@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <algorithm>
+#include <iostream>
 
 class Gracz;
 class Pole;
@@ -241,13 +242,25 @@ void Gracz::przesun(int ruchy, int liczbaPol) {
 }
 
 int main() {
+    srand(time(NULL));
     int liczbaPol = 40;
-    Gracz czlowiek("Grzegorz", 1500);
+    Gracz Grzegorz("Grzegorz", 1500);
+    Gracz Janusz("Janusz", 1500);
     Kosc kosc;
     Bankier bankier(100000);
 
-    int wynikRzutu = kosc.rzuc();
-    czlowiek.przesun(wynikRzutu, liczbaPol);
+    for (int i = 0; i < 3; i++) {
+        int wynikRzutuGrzegorz = kosc.rzuc();
+        std::cout << "Wynik Rzutu Grzegorz: " << wynikRzutuGrzegorz << std::endl;
+        Grzegorz.przesun(wynikRzutuGrzegorz, liczbaPol);
+
+        int wynikRzutuDrugiGracz = kosc.rzuc();
+        std::cout << "Wynik Rzutu Janusz: " << wynikRzutuDrugiGracz << std::endl;
+        Janusz.przesun(wynikRzutuDrugiGracz, liczbaPol);
+    }
+
+    std::cout << "Pozycja Grzegorz: " << Grzegorz.pozycja << std::endl;
+    std::cout << "Pozycja Janusz: " << Janusz.pozycja << std::endl;
 
     return 0;
 }
