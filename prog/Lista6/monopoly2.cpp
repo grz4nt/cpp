@@ -40,11 +40,9 @@ public:
 };
 
 class Pole {
-protected:
-    std::string name;
-    Gracz* owner;
-
 public:
+    Gracz* owner;
+    std::string name;
     Pole(std::string n) : name(n), owner(nullptr) {}
     virtual ~Pole() = default;
 
@@ -250,6 +248,16 @@ int main() {
     Bankier bankier(10000);
     bankier.dodajPieniadze(Grzegorz, 500);
     bankier.dodajPieniadze(Janusz, 500);
+    Miasto* Ateny = new Miasto("Ateny", 200, new int[6]{5, 15, 25, 35, 45, 55});
+    Miasto* Madryt = new Miasto("Madryt", 450, new int[6]{15, 25, 35, 45, 55, 65});
+    Miasto* Paryz = new Miasto("Paryz", 300, new int[6]{10, 20, 30, 40, 50, 60});
+    Miasto* Londyn = new Miasto("Londyn", 600, new int[6]{20, 30, 40, 50, 60, 70});
+    Uzytek* Elektrownia = new Uzytek("Elektrownia", 150, 50);
+    
+    Janusz.nieruchomosci.push_back(Ateny);
+    Janusz.nieruchomosci.push_back(Madryt);
+    Grzegorz.nieruchomosci.push_back(Ateny);
+    Janusz.nieruchomosci.push_back(Madryt);
 
     for (int i = 0; i < 3; i++) {
         int wynikRzutuGrzegorz = kosc.rzuc();
@@ -263,8 +271,19 @@ int main() {
 
     std::cout << "Pozycja Grzegorz: " << Grzegorz.pozycja << std::endl;
     std::cout << "Pieniadze Grzegorz: " << Grzegorz.pieniadze << std::endl;
+    std::cout << "Miasta Grzegorz: ";
+    for (Miasto* miasto : Grzegorz.nieruchomosci) {
+        std::cout << miasto->name << " ";
+    }
+    std::cout << std::endl;
+
     std::cout << "Pozycja Janusz: " << Janusz.pozycja << std::endl;
     std::cout << "Pieniadze Janusz: " << Janusz.pieniadze << std::endl;
+    std::cout << "Miasta Janusz: ";
+    for (Miasto* miasto : Janusz.nieruchomosci) {
+        std::cout << miasto->name << " ";
+    }
+    std::cout << std::endl;
 
     return 0;
 }
