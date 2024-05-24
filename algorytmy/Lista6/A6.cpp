@@ -459,13 +459,21 @@ public:
             quickSort();
             break;
         case algorytmSortowania::wszystkie:
+            std::cout << "1. Bubble sort:\n";
             bubbleSort();
+            std::cout << "2. Selection sort:\n";
             selectionSort();
+            std::cout << "3. Insertion sort:\n";
             insertionSort();
+            std::cout << "4. Merge sort:\n";
             mergeSort();
+            std::cout << "5. Counting sort:\n";
             countingSort();
+            std::cout << "6. Heap sort:\n";
             heapSort();
+            std::cout << "7. Bucket sort:\n";
             bucketSort();
+            std::cout << "8. Quick sort:\n";
             quickSort();
             break;
         }
