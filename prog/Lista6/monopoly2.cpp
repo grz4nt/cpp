@@ -247,7 +247,6 @@ int main() {
     Gracz Grzegorz("Grzegorz", 1500);
     Gracz Janusz("Janusz", 1500);
     Kosc kosc;
-    Bankier bankier(100000);
 
     for (int i = 0; i < 3; i++) {
         int wynikRzutuGrzegorz = kosc.rzuc();
