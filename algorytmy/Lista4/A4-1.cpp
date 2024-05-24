@@ -252,8 +252,8 @@ void zwolnijPamiec()
     while (temp != NULL)
     {
         lista *nast = temp->nast;
-        delete temp;
         temp = nast;
+        delete temp;
     }
     koniec = NULL;
 }
