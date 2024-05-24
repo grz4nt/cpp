@@ -20,7 +20,6 @@ class Bankier;
 
 class Gracz {
 private:
-    int pieniadze;
     std::vector<Miasto*> nieruchomosci;
     bool kartaWiezienie;
     int ileDworzec;
@@ -29,6 +28,7 @@ private:
     int ileHotel;
 
 public:
+    int pieniadze;
     std::string name;
     bool wWiezieniu;
     int pozycja;
@@ -247,6 +247,9 @@ int main() {
     Gracz Grzegorz("Grzegorz", 1500);
     Gracz Janusz("Janusz", 1500);
     Kosc kosc;
+    Bankier bankier(10000);
+    bankier.dodajPieniadze(Grzegorz, 500);
+    bankier.dodajPieniadze(Janusz, 500);
 
     for (int i = 0; i < 3; i++) {
         int wynikRzutuGrzegorz = kosc.rzuc();
@@ -259,7 +262,9 @@ int main() {
     }
 
     std::cout << "Pozycja Grzegorz: " << Grzegorz.pozycja << std::endl;
+    std::cout << "Pieniadze Grzegorz: " << Grzegorz.pieniadze << std::endl;
     std::cout << "Pozycja Janusz: " << Janusz.pozycja << std::endl;
+    std::cout << "Pieniadze Janusz: " << Janusz.pieniadze << std::endl;
 
     return 0;
 }
