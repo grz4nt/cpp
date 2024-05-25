@@ -4,7 +4,7 @@ using namespace std;
 
 struct Node {
     int data;
-    Node* next;
+    Node* prev;
 };
 
 class LinkedList {
@@ -15,7 +15,7 @@ public:
     void add(int data) {
         Node* newNode = new Node;
         newNode->data = data;
-        newNode->next = head;
+        newNode->prev = head;
         head = newNode;
     }
 
@@ -23,36 +23,17 @@ public:
         Node* temp = head;
         while (temp != nullptr) {
             cout << "\n" << temp->data;
-            temp = temp->next;
+            temp = temp->prev;
         }
         cout << endl;
     }
-    void remove(int data) {
-        if (head == nullptr) {
-            return;
-        }
-        
-        if (head->data == data) {
+    
+    void remove() {
+        if (head != nullptr) {
             Node* temp = head;
-            head = head->next;
+            head = head->prev;
             delete temp;
-            return;
         }
-        
-        Node* curr = head;
-        Node* prev = nullptr;
-        
-        while (curr != nullptr && curr->data != data) {
-            prev = curr;
-            curr = curr->next;
-        }
-        
-        if (curr == nullptr) {
-            return;
-        }
-        
-        prev->next = curr->next;
-        delete curr;
     }
 };
 
