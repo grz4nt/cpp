@@ -2,58 +2,58 @@
 #include <fstream>
 #include <string>
 
-struct lista
+struct Node
 {
     std::string imie;
     std::string nazwisko;
     std::string PESEL;
     int wiek;
-    lista *pop;
+    Node *prev;
 };
 
-lista *dodajElement(lista *pocz, std::string imie, std::string nazwisko, std::string PESEL, int wiek)
+Node *dodajElement(Node *head, std::string imie, std::string nazwisko, std::string PESEL, int wiek)
 {
-    lista *nowyElement = new lista;
-    nowyElement->imie = imie;
-    nowyElement->nazwisko = nazwisko;
-    nowyElement->PESEL = PESEL;
-    nowyElement->wiek = wiek;
-    nowyElement->pop = pocz;
-    return nowyElement;
+    Node *nowy = new Node;
+    nowy->imie = imie;
+    nowy->nazwisko = nazwisko;
+    nowy->PESEL = PESEL;
+    nowy->wiek = wiek;
+    nowy->prev = head;
+    return nowy;
 }
 
-lista *zdejmijElement(lista *pocz)
+Node *zdejmijElement(Node *head)
 {
-    if (pocz)
+    if (head)
     {
-        lista *temp = pocz;
-        pocz = pocz->pop;
+        Node *temp = head;
+        head = head->prev;
         std::cout << "Usuniety element: " << temp->imie << " " << temp->nazwisko << ", PESEL: " << temp->PESEL << ", wiek: " << temp->wiek << "\n";
         delete temp;
     }
-    return pocz;
+    return head;
 }
 
-void wypiszStos(lista *pocz)
+void wypiszStos(Node *head)
 {
-    lista *temp = pocz;
+    Node *temp = head;
     while (temp)
     {
         std::cout << "Imie i nazwisko: " << temp->imie << " " << temp->nazwisko << ", PESEL: " << temp->PESEL << ", wiek: " << temp->wiek << "\n";
-        temp = temp->pop;
+        temp = temp->prev;
     }
 }
 
-void zapiszDoPliku(lista *pocz, const std::string &nazwaPliku)
+void zapiszDoPliku(Node *head, const std::string &nazwaPliku)
 {
     std::ofstream plik(nazwaPliku);
     if (plik.is_open())
     {
-        lista *temp = pocz;
+        Node *temp = head;
         while (temp)
         {
             plik << temp->imie << " " << temp->nazwisko << ", " << temp->PESEL << ", " << temp->wiek << " lat\n";
-            temp = temp->pop;
+            temp = temp->prev;
         }
         plik.close();
         std::cout << "Zapis do pliku " << nazwaPliku << " powiodl sie." << std::endl;
@@ -74,9 +74,9 @@ void wyswietlMenu()
     std::cout << "Wybierz funkcje: ";
 }
 
-bool sprawdzStos(lista *pocz)
+bool sprawdzStos(Node *head)
 {
-    if (pocz == nullptr)
+    if (head == nullptr)
     {
         std::cout << "Nie mozna wykonac wybranej funkcji. Stos jest pusty!\n" << std::endl;
         return true;
@@ -86,7 +86,7 @@ bool sprawdzStos(lista *pocz)
 
 int main()
 {
-    lista *pocz = nullptr;
+    Node *head = nullptr;
     char wybor;
     std::string imie, nazwisko, PESEL;
     int wiek;
@@ -131,34 +131,34 @@ int main()
                     std::cout << "Wprowadz ponownie: ";
                 }
             } while (wiek < 1 || wiek > 125);
-            pocz = dodajElement(pocz, imie, nazwisko, PESEL, wiek);
+            head = dodajElement(head, imie, nazwisko, PESEL, wiek);
             break;
             std::cout << std::endl;
         case 'b':
-            if (!sprawdzStos(pocz))
+            if (!sprawdzStos(head))
             {
-                pocz = zdejmijElement(pocz);
+                head = zdejmijElement(head);
             }
             std::cout << std::endl;
             break;
         case 'c':
-            if (!sprawdzStos(pocz))
+            if (!sprawdzStos(head))
             {
-                wypiszStos(pocz);
+                wypiszStos(head);
             }
             std::cout << std::endl;
             break;
         case 'd':
-            if (!sprawdzStos(pocz))
+            if (!sprawdzStos(head))
             {
-                zapiszDoPliku(pocz, "dane.txt");
+                zapiszDoPliku(head, "dane.txt");
                 std::cout << "Dane zapisane do pliku dane.txt\n" << std::endl;
             }
             break;
         case 'f':
-            while (pocz)
+            while (head)
             {
-                pocz = zdejmijElement(pocz);
+                head = zdejmijElement(head);
             }
             std::cout << "Program zakonczony.";
             break;
