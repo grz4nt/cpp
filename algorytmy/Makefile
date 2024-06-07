@@ -1,2 +1,2 @@
-1: stos.cpp
-	g++ stos.cpp -o stos.exe
+1: stos1.cpp
+	g++ stos1.cpp -o stos1.exe
