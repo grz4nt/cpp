@@ -79,7 +79,7 @@ public:
         os << "Historia semestrow: " << endl;
         for (const auto& sem : s.historiaSemestrow)
         {
-            os << sem << endl;
+            os << sem << std::endl;
         }
         os << "Srednia ocen: " << s.avg << endl;
         return os;
