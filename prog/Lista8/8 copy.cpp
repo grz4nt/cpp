@@ -348,3 +348,33 @@ int main()
         }
     }
 }
+
+
+
+/*
+void prog()
+{
+    double p = 4.4;
+
+    for (auto& s : student)
+    {
+        int ile = 0;
+        s.avg = 0;
+
+        for (const auto& sem : s.historiaSemestrow)
+        {
+            for (const auto& ocena : sem.oceny)
+            {
+                s.avg += ocena.ocena;
+                ile++;
+            }
+        }
+
+        if (ile > 0 && (s.avg / ile) >= p)
+        {
+            cout << "Studentowi " << s.nazwisko << " przysługuje stypendium" << endl;
+        }
+    }
+}
+
+*/
